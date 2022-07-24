@@ -1,6 +1,6 @@
 # 1 - What is the total amount each customer spent at the restaurant?
 
-''' sql
+```sql
 select s.customer_id,
        sum(price) as total 
 from dannys_diner.sales s
