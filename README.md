@@ -3,5 +3,4 @@
  
 ## Case Study #1 - Danny's Diner
  
-![![image](https://user-images.githubusercontent.com/87584678/180666090-f6caa727-5268-4672-bcab-ed26d887c75a.png)
-]
+![image](https://user-images.githubusercontent.com/87584678/180666179-3aba78c2-fe04-4c6b-bd53-43a68b01d948.png)
