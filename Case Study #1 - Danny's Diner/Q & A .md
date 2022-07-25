@@ -7,4 +7,4 @@ from dannys_diner.sales s
 join dannys_diner.menu m
 on s.product_id = m.product_id
 group by 1 ;
-'''
+```
