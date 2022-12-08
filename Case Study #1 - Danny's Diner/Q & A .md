@@ -44,7 +44,24 @@ group by product_name
 order by 2 desc
 ```
 
-
+# 5. Which item was the most popular for each customer?
+```sql
+select customer_id,
+       product_name, 
+       _count
+from 
+     (
+       select s.customer_id,
+	       m.product_name,	
+	       count(s.product_id) _count,
+	       rank() over(partition by customer_id order by count(s.product_id) desc) as ranks
+       from dannys_diner.sales s,
+            dannys_diner.menu m
+       where s.product_id = m.product_id
+       group by s.customer_id , m.product_name
+       ) table_1
+where ranks = 1
+```
 
 
 
