@@ -63,9 +63,65 @@ from
 where ranks = 1
 ```
 
+# 6. Which item was purchased first by the customer after they became a member?
+```sql
+with Order_CTE as (	
+select m.customer_id ,
+       s.product_id ,
+       RANK() over(partition by m.customer_id order by s.order_date ) as oredered
+from dannys_diner.sales s
+join dannys_diner.members m
+on s.customer_id = m.customer_id
+   where		
+   s.order_date >= m.join_date
+)
 
+select o.customer_id,
+       m.product_name
+from Order_CTE O
+join dannys_diner.menu m
+on o.product_id = m.product_id
+where oredered=1
+```
 
+# 7. Which item was purchased just before the customer became a member?
+```sql
+with Order_CTE as (	
+select m.customer_id ,
+       order_date,
+       join_date,
+       s.product_id ,
+       RANK() over(partition by m.customer_id order by s.order_date desc) as oredered
+from dannys_diner.sales s
+join dannys_diner.members m
+on s.customer_id = m.customer_id
+   where		
+   s.order_date < m.join_date
+)
 
+select o.customer_id,
+       m.product_name,
+       order_date,
+       join_date
+from Order_CTE O
+join dannys_diner.menu m
+on o.product_id = m.product_id
+where oredered=1
+```
+
+# 8. What is the total items and amount spent for each member before they became a member?
+```sql
+select m.customer_id,
+       count(s.order_date) Total_items,
+       sum(menu.price) Total_spent
+from dannys_diner.sales s
+join dannys_diner.members m
+on s.customer_id = m.customer_id
+join dannys_diner.menu menu
+on s.product_id = menu.product_id
+where s.order_date < m.join_date
+group by m.customer_id
+```
 
 
 
