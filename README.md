@@ -1,7 +1,8 @@
 # 8-Week-SQL-Challenge
 
-## Table of Contents
-- [Case study 1](#Case-Study-1--Dannys-Diner)
+This repository contains the solution for the 8 case studies in #8WeekSQLChallenge!
+I used MS SQL server to solve this SQL Questions
+
  
  
 ## Case Study #1 - Danny's Diner
