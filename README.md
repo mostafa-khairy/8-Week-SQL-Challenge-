@@ -1,9 +1,8 @@
 # 8-Week-SQL-Challenge
 
 ## Table of Contents
-- [Case study 1](-Case-Study-1--Danny's-Diner)
+- [Case study 1](#Case-Study-1--Dannys-Diner)
  
- Case Study #1 : Danny's Diner
  
 ## Case Study #1 - Danny's Diner
  
