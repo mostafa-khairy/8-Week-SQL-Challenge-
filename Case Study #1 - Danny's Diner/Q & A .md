@@ -139,7 +139,6 @@ group by
 	s.customer_id
 ```
 
-------------------------------------------------------------------------------------------------------------------------
 # 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items,
  not just sushi - how many points do customer A and B have at the end of January? 
 ```sql
@@ -171,6 +170,69 @@ group by
 ```
 
 ___
+
+| Bonus Questions |
+|---|
+___
+
+# Join All The Things : creating basic data tables that Danny and his team can use to quickly derive insights without needing to join the underlying tables using SQL.
+```sql			
+select
+	s.customer_id ,
+	s.order_date,
+	menu.product_name,
+	menu.price,
+	case
+		when s.order_date >= m.join_date then 'YES'
+		else 'NO'
+		end as member 
+from
+	dannys_diner.members m
+	right join dannys_diner.sales s
+	on m.customer_id = s.customer_id
+	join dannys_diner.menu menu
+	on s.product_id = menu.product_id
+```
+
+Answer:
+
+![image](https://user-images.githubusercontent.com/87584678/206866236-00ff2016-3af5-4b82-ad05-d149acda206d.png)
+
+
+___ 
+
+# Rank All The Things : Danny also requires further information about the ranking of customer products, but he purposely does not need the ranking for non-member purchases so he expects null ranking values for the records when customers are not yet part of the loyalty program.
+```sql
+with rank_CTE as (
+select
+	s.customer_id ,
+	s.order_date,
+	menu.product_name,
+	menu.price,
+	case
+		when s.order_date >= m.join_date then 'YES'
+		else 'NO'
+		end as member 
+from
+	dannys_diner.members m
+	right join dannys_diner.sales s
+	on m.customer_id = s.customer_id
+	join dannys_diner.menu menu
+	on s.product_id = menu.product_id
+)
+select 
+	*,
+	CASE 
+	when member = 'yes' then dense_RANK() over(PARTITION BY CUSTOMER_ID, member ORDER BY ORDER_DATE ) 
+	else NULL
+	end as  rank_Orders
+ from rank_CTE
+```
+Answer:
+
+![image](https://user-images.githubusercontent.com/87584678/206866839-6f6d9f01-f1f4-438e-81db-71c3effeff58.png)
+
+
 
 
 
