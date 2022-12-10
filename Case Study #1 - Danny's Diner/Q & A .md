@@ -170,6 +170,9 @@ group by
 	s.customer_id
 ```
 
+___
+
+
 
 
 
