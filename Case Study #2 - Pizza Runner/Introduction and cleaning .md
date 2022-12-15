@@ -125,8 +125,10 @@ drop table pizza_recipes
 ```
 ___
 
-
-
+## table pizza_name
+```sql
+alter table pizza_names alter column pizza_name varchar(max)
+```
 
 
 
