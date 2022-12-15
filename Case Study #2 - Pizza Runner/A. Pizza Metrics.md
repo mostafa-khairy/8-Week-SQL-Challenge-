@@ -22,3 +22,4 @@ where cancellation is NULL
 group by runner_id
 ```
 ![image](https://user-images.githubusercontent.com/87584678/207749061-8ad9a497-2ebb-4faa-8f5f-52b20fa4eae2.png)
+
