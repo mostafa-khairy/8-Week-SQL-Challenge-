@@ -113,7 +113,7 @@ alter table pizza_recipes alter column toppings varchar(max)
 ```sql
 select 
 	pizza_id,
-	value new 
+	value topping_id 
 into	
 	clean_pizza_recipes
 from pizza_recipes 
