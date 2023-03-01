@@ -16,3 +16,7 @@ on
 where 
 	s.customer_id in (1,2,11,13,15,16,18,19)
   ```
+  
+  
+  ![image](https://user-images.githubusercontent.com/87584678/222017059-4c0622c0-e9b4-474e-a13e-8364e6fde397.png)
+
