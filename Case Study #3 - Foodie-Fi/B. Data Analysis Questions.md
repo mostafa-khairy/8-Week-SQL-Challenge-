@@ -32,7 +32,6 @@ group by
  
 ```sql
 select 
-	--EOMONTH(2020-01-1),
 	plan_name,
 	count(s.customer_id) count
 from
