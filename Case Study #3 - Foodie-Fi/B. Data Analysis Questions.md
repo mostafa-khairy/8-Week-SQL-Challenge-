@@ -48,6 +48,39 @@ group by
 ![image](https://user-images.githubusercontent.com/87584678/222424971-62fd5b1c-91a4-4aa7-ac0e-ef895f81d314.png)
 
 
+# 4- What is the customer count and percentage of customers who have churned rounded to 1 decimal place?
+ 
+```sql
+select 
+	count( customer_id) count_churn,
+	round((count(*) / cast( (select count(distinct customer_id)from subscriptions )as float ))*100,1) as percentage
+from 
+	subscriptions
+where plan_id = 4
+```
+
+![image](https://user-images.githubusercontent.com/87584678/222828572-c1213df1-3ff1-4e87-82ec-5a8ceaeb156c.png)
+
+# 5- How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
+ ```sql
+with cte as (
+	select
+		*, 
+		ROW_NUMBER() over (partition by customer_id order by start_date) as row
+	from 
+		subscriptions
+			)
+select
+	count(*) as custmer_churned,
+	round(100*count(*)/(select count(distinct customer_id)from subscriptions ),1) as percentage
+from
+	cte 
+where 
+	plan_id = 4 and row = 2;
+
+```
+![image](https://user-images.githubusercontent.com/87584678/222838276-bf18a54e-d419-4c0d-a9af-a21076cbd940.png)
+
 
 
 
