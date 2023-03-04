@@ -84,10 +84,33 @@ where
 
 
 
+# 6- What is the number and percentage of customer plans after their initial free trial?
+```sql
+with cte as (
+	select
+		p.plan_name,
+		ROW_NUMBER() over (partition by customer_id order by start_date) as row
+	from 
+		plans p
+	join 
+		subscriptions s
+	on s.plan_id = p.plan_id	
+	)
+select
+plan_name,
+	count(*) as count ,
+	round(100*count(*)/cast( (select count(distinct customer_id)from subscriptions )as float ),2) as percentage
+from
+	cte 
+where 
+	row = 2 
+group by 
+	plan_name
+order by
+	count	desc;
+```
 
-
-
-
+![image](https://user-images.githubusercontent.com/87584678/222914825-0523b644-ae03-4d58-bfc7-748a1494e683.png)
 
 
 
