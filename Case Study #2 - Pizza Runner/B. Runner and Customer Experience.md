@@ -120,9 +120,30 @@ from CTE
 ![image](https://user-images.githubusercontent.com/87584678/210180437-17fab464-81fa-4dad-9433-4f69cb3b5055.png)
 
 
+3 9- How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?
 
+```sql
+with plan_annual as (
+select 
+	* 
+from 
+	subscriptions
+ where 
+	plan_id =3
+	)
 
+select 
+	avg(DATEDIFF(DAY, s.start_date , p.start_date)) as Average_Day
+from 
+	plan_annual p
+join
+	subscriptions s
+on 
+	p.customer_id = s.customer_id
+where s.plan_id = 0
+```
 
+![image](https://user-images.githubusercontent.com/87584678/222932701-1eab0f87-d40d-4a90-8d39-67fe2c95750c.png)
 
 
 
