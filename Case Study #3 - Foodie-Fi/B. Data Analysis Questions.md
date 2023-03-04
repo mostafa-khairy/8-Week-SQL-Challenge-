@@ -115,13 +115,58 @@ order by
 
 
 
+# 7- What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?
+```sql
+declare @total float =( select count(distinct customer_id) from subscriptions where start_date <= '2020-12-31' ); 
+
+WITH cte AS (
+	select 
+		p.plan_name,
+		ROW_NUMBER() over (partition by customer_id order by start_date DESC) as row
+	from 
+		subscriptions s 
+	join 
+		plans p
+	on
+		s.plan_id = p.plan_id
+	where s.start_date <= '2020-12-31'
+	)
+select 
+	plan_name,
+	count(*) Total_Customer ,
+	count(*)/@total *100 Percentage
+from
+	cte
+where 
+	row = 1
+group by 
+	plan_name
+order by 2 desc
+```
+
+![image](https://user-images.githubusercontent.com/87584678/222922614-df3548c6-aa7b-413b-a4ca-2af451c6531e.png)
 
 
+# 8- How many customers have upgraded to an annual plan in 2020?
+```sql
+select 
+	p.plan_name,
+	count(*)
+from 
+	subscriptions s 
+join 
+	plans p
+on
+	s.plan_id = p.plan_id
+where 
+	year(start_date) = 2020
+	and
+	plan_name = 'pro annual'
+group by 
+	p.plan_name
+```
 
-
-
-
-
+![image](https://user-images.githubusercontent.com/87584678/222922839-8651cbdd-7275-4f7a-961f-8ce7234c2538.png)
 
 
 
