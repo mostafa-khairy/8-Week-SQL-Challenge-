@@ -170,8 +170,28 @@ group by
 
 
 
+# 9- How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?
+```sql 
+with plan_annual as (
+select 
+	* 
+from 
+	subscriptions
+ where 
+	plan_id =3
+	)
 
-
+select 
+	avg(DATEDIFF(DAY, s.start_date , p.start_date)) as Average_Day
+from 
+	plan_annual p
+join
+	subscriptions s
+on 
+	p.customer_id = s.customer_id
+where s.plan_id = 0
+```
+![image](https://user-images.githubusercontent.com/87584678/222934452-d79df28b-77f7-4e52-966d-2c4d371e6551.png)
 
 
 
