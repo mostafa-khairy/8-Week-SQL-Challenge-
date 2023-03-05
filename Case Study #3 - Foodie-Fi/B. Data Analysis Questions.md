@@ -194,12 +194,63 @@ where s.plan_id = 0
 ![image](https://user-images.githubusercontent.com/87584678/222934452-d79df28b-77f7-4e52-966d-2c4d371e6551.png)
 
 
+# 10 Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
+```sql
+with plan_annual as (
+select 
+	customer_id,
+	start_date as annual_date
+from 
+	subscriptions
+ where 
+	plan_id =3
+	),
+plan_trial as (
+select 
+	customer_id,
+	start_date 
+from 
+	subscriptions
+ where 
+	plan_id =0
+),
+bins as( 
+select 
+	a.customer_id,
+    DATEDIFF(DAY, start_date, annual_date)/30 + 1 AS bins
+from 
+	plan_annual a , plan_trial t
+where a.customer_id = t.customer_id	
+)
+select 
+	case when bins = 1 then CONCAT('0 - 30' , ' days')
+	else 
+	CONCAT( (bins-1)*30 ,' - ',bins*30 , ' days' ) end as breakdown,
+	count(customer_id) total_customer
+from bins
+group by bins
+```
 
+# 11 How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
+```sql
+with Row_Num_CTE as (
+select 
+	customer_id,
+	plan_id,
+	lead(plan_id) over(partition by customer_id order by start_date) as row 
+from 
+	subscriptions
+where 
+	plan_id=2
+)
+select 
+	count(customer_id) total_Customer
+from 
+	Row_Num_CTE
+where row is not null
+```
 
-
-
-
-
+![image](https://user-images.githubusercontent.com/87584678/222962722-df2914f0-2ec0-4989-812a-cc686482b24d.png)
 
 
 
