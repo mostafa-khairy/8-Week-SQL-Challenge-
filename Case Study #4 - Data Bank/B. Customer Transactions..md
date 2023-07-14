@@ -62,8 +62,33 @@ group by
 ![image](https://github.com/mostafa-khairy/8-Week-SQL-Challenge-/assets/87584678/4ab82fcf-e31b-40b4-b27c-9db00bc2f006)
 
 
+# 4- What is the closing balance for each customer at the end of the month?
+```SQL
+with CTE1 as
+(
+select 
+	customer_id,
+	EOMonth(txn_date) months,
+	
+	sum( case when txn_type = 'deposit' then txn_amount
+			  when txn_type = 'purchase' then - txn_amount 
+			  when txn_type = 'withdrawal' then - txn_amount end ) as transactions
+from 
+	customer_transactions
+group by 	
+	EOMonth(txn_date),
+	customer_id
+)
+select 
+	customer_id , months ,
+	sum(transactions) over ( partition by customer_id order by months ) as closing_balance
+from  
+	CTE1
+order by
+	1,2 
+```
 
-
+![image](https://github.com/mostafa-khairy/8-Week-SQL-Challenge-/assets/87584678/f0d8b6c5-9878-403c-aff2-2ad0f2dd9061)
 
 
 
